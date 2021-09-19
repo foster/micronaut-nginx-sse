@@ -17,7 +17,7 @@ data:
       ssl_certificate		ssl/tls.crt;
       ssl_certificate_key	ssl/tls.key;
 
-      location /hello {
+      location /api {
         proxy_pass		http://host.minikube.internal:8080;
       }
     }
