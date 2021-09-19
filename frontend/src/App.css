@@ -1,0 +1,18 @@
+.App {
+  margin: 25px;
+  height: 200px;
+  width: 200px;
+}
+
+#clock {
+  transform: rotate(-10 50 100);
+}
+
+/* .secondHand {
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform-origin: '50% 50%';
+  -webkit-transform-origin: '50% 50%';
+  transition: 'transform 1.2s linear';
+  -webkit-transition: 'transform 1.2s linear';
+} */

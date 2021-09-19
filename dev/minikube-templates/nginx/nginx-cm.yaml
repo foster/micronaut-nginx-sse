@@ -20,4 +20,7 @@ data:
       location /api {
         proxy_pass		http://host.minikube.internal:8080;
       }
+      location / {
+        proxy_pass		http://host.minikube.internal:3000;
+      }
     }

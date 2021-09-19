@@ -24,23 +24,22 @@ public class TimeController
     return "Hello World";
   }
 
-  @Get("/seconds")
+  @Get(value="/seconds", produces = MediaType.TEXT_EVENT_STREAM)
   public Publisher<Event<Integer>> seconds()
   {
     return Flux.from(timeService.getSeconds())
       .map(Event::of);
   }
 
-  @Get("/minutes")
+  @Get(value="/minutes", produces = MediaType.TEXT_EVENT_STREAM)
   public Publisher<Event<Integer>> minutes()
   {
     return Flux.from(timeService.getMinutes())
       .map(Event::of);
-
   }
 
 
-  @Get("/hours")
+  @Get(value="/hours", produces = MediaType.TEXT_EVENT_STREAM)
   public Publisher<Event<Integer>> hours()
   {
     return Flux.from(timeService.getHours())

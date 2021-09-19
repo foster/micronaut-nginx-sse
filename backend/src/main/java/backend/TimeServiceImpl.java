@@ -19,7 +19,8 @@ public class TimeServiceImpl
 
   public TimeServiceImpl() {
     timeEmitter = Flux.interval(Duration.ofMillis(100))
-      .map(__ -> LocalTime.now());
+      .map(__ -> LocalTime.now())
+      .share();
   }
 
   @PostConstruct
@@ -30,19 +31,19 @@ public class TimeServiceImpl
       .map(time -> time.getSecond())
       .distinctUntilChanged()
       .doOnNext(s -> System.out.println("second tick: " + s))
-      .cache();
+      .cache(1);
 
     minutesEmitter = Flux.from(timeEmitter)
       .map(time -> time.getMinute())
       .distinctUntilChanged()
       .doOnNext(m -> System.out.println("minute tick: " + m))
-      .cache();
+      .cache(1);
 
     hoursEmitter = Flux.from(timeEmitter)
       .map(time -> time.getHour())
       .distinctUntilChanged()
       .doOnNext(h -> System.out.println("hour tick: " + h))
-      .cache();
+      .cache(1);
   }
 
   @Override
