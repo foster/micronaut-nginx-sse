@@ -12,38 +12,41 @@ import java.time.LocalTime;
 public class TimeServiceImpl
         implements TimeService
 {
-  private Publisher<LocalTime> timeEmitter;
+  private Publisher<LocalTime> heartbeat;
   Publisher<Integer> secondsEmitter;
   Publisher<Integer> minutesEmitter;
   Publisher<Integer> hoursEmitter;
 
   public TimeServiceImpl() {
-    timeEmitter = Flux.interval(Duration.ofMillis(100))
+    heartbeat = Flux.interval(Duration.ofMillis(100))
       .map(__ -> LocalTime.now())
       .share();
   }
 
   @PostConstruct
   public void initialize() {
-    System.out.println("Initializing metronome");
+    System.out.println("Initializing TimerServiceImpl");
 
-    secondsEmitter = Flux.from(timeEmitter)
+    secondsEmitter = Flux.from(heartbeat)
       .map(time -> time.getSecond())
       .distinctUntilChanged()
       .doOnNext(s -> System.out.println("second tick: " + s))
-      .cache(1);
+      .cache(1)
+      .share();
 
-    minutesEmitter = Flux.from(timeEmitter)
+    minutesEmitter = Flux.from(heartbeat)
       .map(time -> time.getMinute())
       .distinctUntilChanged()
       .doOnNext(m -> System.out.println("minute tick: " + m))
-      .cache(1);
+      .cache(1)
+      .share();
 
-    hoursEmitter = Flux.from(timeEmitter)
+    hoursEmitter = Flux.from(heartbeat)
       .map(time -> time.getHour())
       .distinctUntilChanged()
       .doOnNext(h -> System.out.println("hour tick: " + h))
-      .cache(1);
+      .cache(1)
+      .share();
   }
 
   @Override
